@@ -6,7 +6,6 @@ import os
 app = Quart("CSC")
 app = cors(app, allow_origin="*", allow_methods=["GET", "POST"])
 app.config['UPLOAD_FOLDER'] = "/s3"
-app = cors
 APP_SECRET = os.environ.get("APP_SECRET")
 
 @app.before_request
