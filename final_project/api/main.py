@@ -21,7 +21,7 @@ async def authenticate_platform():
         
 @app.route("/get/<path:path>", methods=["GET"])
 async def cdn(path: str):
-    return await send_from_directory("/cdn", path)
+    return await send_from_directory("/s3", path)
     
 @app.route("/upload", methods=["POST"])
 async def push():

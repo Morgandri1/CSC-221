@@ -21,14 +21,14 @@ export function FileUpload({ onUploadSuccess }: FileUploadProps) {
 
     try {
       // Get the server URL from environment or use localhost as fallback
-      const serverUrl = process.env.NEXT_PUBLIC_UPLOAD_SERVER_URL || "https://csc-221-production.up.railway.app/"
-      const uploadUrl = `${serverUrl}/upload/${encodeURIComponent(file.name)}`
+      const serverUrl = "https://csc-221-production.up.railway.app"
 
-      const response = await fetch(uploadUrl, {
+      const response = await fetch(`${serverUrl}/upload`, {
         method: "POST",
         body: file,
         headers: {
           "Content-Type": file.type || "application/octet-stream",
+          "Authorization": process.env.APP_SECRET || "f461396e28955e716a7625901cc43ccd"
         },
       })
 
@@ -37,8 +37,8 @@ export function FileUpload({ onUploadSuccess }: FileUploadProps) {
       }
 
       // Assume the server returns the permalink URL
-      const result = await response.text()
-      const permalink = result.trim() || uploadUrl
+      const result = await response.json()
+      const permalink = result.filename ? `${serverUrl}/get/${result.filename}` : `${serverUrl}/get/${encodeURIComponent(file.name)}`
 
       onUploadSuccess(permalink)
     } catch (error) {
