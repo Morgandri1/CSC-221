@@ -10,7 +10,7 @@ APP_SECRET = os.environ.get("APP_SECRET")
 
 @app.before_request
 async def authenticate_platform():
-    if request.method == "OPTIONS" or request.path.startswith("/cdn"):
+    if request.method == "OPTIONS" or request.path.startswith("/get"):
         return
     headers = request.headers
     secret = headers.get("Authorization")
