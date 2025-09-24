@@ -1,0 +1,6 @@
+quarters = int(input("How many quarters do you have? "))
+dollars = int(quarters // 4)
+left = int(quarters % 4)
+cents = int(left * 25)
+print(f"You have {dollars} dollars and {cents} cents (${dollars}.{cents}), with {left} quarter{"s" if left != 1 else ""} left over.")
+print(f"Your next closest dollar is {round(dollars + (cents / 100))}")
