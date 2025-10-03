@@ -19,10 +19,10 @@ def main():
     fee = calculate_tx_fee(total)
     print(f"""
 --------------------------------------
-Total coins: {p+n+d+q}
-Total value: ${total:.2f}
-Minus transaction fee of {TX_FEE}% (${fee:.2f}),
-Your total: ${(total - fee):.2f}
+Below are the results of our coin count:
+You have {p+n+d+q}, which is ${total:.2f}!
+Now I will compute my {TX_FEE}% count fee:
+My {TX_FEE}% counting fee is ${fee:.2f}, leaving you with ${(total - fee):.2f}
 --------------------------------------
 
 *******************************************

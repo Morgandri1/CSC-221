@@ -16,7 +16,7 @@ async def authenticate_platform():
     secret = headers.get("Authorization")
     if not secret or not APP_SECRET or secret != APP_SECRET:
         abort(401, "Unauthorized")
-    else: 
+    else:
         return
         
 @app.route("/get/<path:path>", methods=["GET"])
