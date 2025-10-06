@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Upload, File, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import Axios from "axios";
 
 interface FileUploadProps {
   onUploadSuccess: (url: string) => void
@@ -23,21 +24,31 @@ export function FileUpload({ onUploadSuccess }: FileUploadProps) {
       // Get the server URL from environment or use localhost as fallback
       const serverUrl = "https://csc-221-production.up.railway.app"
 
-      const response = await fetch(`${serverUrl}/upload`, {
+      let formdata = new FormData()
+      formdata.append("file", file)
+      console.log(file)
+      console.log(formdata)
+      
+      const response = await Axios(`${serverUrl}/upload`, {
         method: "POST",
-        body: file,
+        data: formdata,
         headers: {
+          "Content-Type": "multipart/form-data",
           "Authorization": process.env.APP_SECRET || "f461396e28955e716a7625901cc43ccd"
         },
       })
 
-      if (!response.ok) {
-        throw new Error(`Upload failed: ${response.statusText}`)
+      if (response.status !== 200) {
+        throw new Error(`Request failed: ${response.statusText}`)
       }
 
       // Assume the server returns the permalink URL
-      const result = await response.json()
-      console.log(result)
+      const result = response.data
+      if (result.status == 1) {
+        setUploadError("Failed to upload! " + result.error)
+        setIsUploading(false)
+        return
+      }
       const permalink = result.filename ? `${serverUrl}/get/${result.filename}` : `${serverUrl}/get/${encodeURIComponent(file.name)}`
 
       onUploadSuccess(permalink)
