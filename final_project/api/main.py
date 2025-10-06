@@ -32,8 +32,7 @@ async def cdn(path: str):
 @app.route("/upload", methods=["POST"])
 async def push():
     try:
-        file = await request.files
-        file = file["file"]
+        file = await request.files.get("file")
         if file is None:
             abort(400, "No file provided")
         name = generate_uuid(file.filename)
