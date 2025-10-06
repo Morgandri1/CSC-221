@@ -1,6 +1,5 @@
 from quart import Quart, send_file, jsonify, request, abort
 from quart_cors import cors
-from werkzeug.exceptions import HTTPException, InternalServerError
 import os
 from solders.pubkey import Pubkey
 
@@ -35,6 +34,8 @@ async def push():
     try:
         file = await request.files
         file = file["file"]
+        if file is None:
+            abort(400, "No file provided")
         name = generate_uuid(file.filename)
         await file.save(f"/s3/{name}")
         return jsonify({"status": 0, "filename": name})

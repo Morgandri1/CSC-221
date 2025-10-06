@@ -27,7 +27,6 @@ export function FileUpload({ onUploadSuccess }: FileUploadProps) {
         method: "POST",
         body: file,
         headers: {
-          "Content-Type": file.type || "application/octet-stream",
           "Authorization": process.env.APP_SECRET || "f461396e28955e716a7625901cc43ccd"
         },
       })
@@ -38,6 +37,7 @@ export function FileUpload({ onUploadSuccess }: FileUploadProps) {
 
       // Assume the server returns the permalink URL
       const result = await response.json()
+      console.log(result)
       const permalink = result.filename ? `${serverUrl}/get/${result.filename}` : `${serverUrl}/get/${encodeURIComponent(file.name)}`
 
       onUploadSuccess(permalink)
