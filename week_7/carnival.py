@@ -21,8 +21,8 @@ def main():
     if discount > 0: 
         print(f"Wait! You qualify for a large purchse discount of {percent}% (${discount:.2f})")
         print(f"Your new total ticket purchase with discount is {(price - discount):.2f}!")
-    print(EXIT_MESSAGE)
-
+    return EXIT_MESSAGE
+    
 def calculate_cost(a,s,k,t) -> float:
     """
     ### Calculates the total cost of carnival tickets.
@@ -52,4 +52,4 @@ def calculate_discount(total: float):
         return (discount,total * (discount / 100))
     return (0,0)
     
-main() # made with ❤️ by Morgan Metz
+print(main()) # made with ❤️ by Morgan Metz
