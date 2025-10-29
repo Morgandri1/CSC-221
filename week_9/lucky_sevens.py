@@ -1,10 +1,11 @@
 import random as rand
 
 def roll():
-    r1 = rand.randint(1,7)
-    r2 = rand.randint(1,7)
-    r3 = rand.randint(1,7)
-    return r1, r2, r3
+    return [
+        rand.randint(1,7), 
+        rand.randint(1,7), 
+        rand.randint(1,7)
+    ]
 
 def get_bal():
     try:
@@ -13,11 +14,14 @@ def get_bal():
         print("Invalid input. Please enter a valid integer.")
         return get_bal()
 
-bal = get_bal()
-rn = 0 # number of rolls
-max_bal = bal
+rewards = {
+    "3": 30,
+    "2": 5,
+    "1": 2,
+    "0": -1
+}
 
-while bal > 0:
+def main(bal: int, max_bal: int, rn: int):
     if bal > max_bal:
         max_bal = bal
     rolls = roll()
@@ -32,20 +36,11 @@ while bal > 0:
             ones += 1
     if ones == 3:
         bal = 0
-    elif sevens == 3:
-        won = 30
-    elif sevens == 2:
-        won = 5
-    elif sevens == 1:
-        won = 2
-    else:
-        bal += -1
+    else: 
+        won = rewards[str(sevens)]
     bal += won
     print(f"You rolled {rolls[0]}, {rolls[1]}, and {rolls[2]}", end=" ")
-    if ones == 3:
-        print("which is tripple ones! XXX - Triclops caught you - XXX YOU LOSE EVERYTHING!", end=" ")
-        bal = 0
-    elif sevens > 0: 
+    if sevens > 0: 
         print(f"which is {sevens} seven!", end=" ")
     if 3 > sevens > 0:
         print(f"~~~ - Lucky Seven{'s' if sevens > 1 else ""} - ~~~ You win ${won}!", end=" ")
@@ -53,5 +48,12 @@ while bal > 0:
         print(f"@@@ - JACKPOT! - @@@ You win ${won}!", end=" ")
     if won == 0 and ones != 3:
         print("You lose $1!", end=" ")
-    print(f"Your new balance: ${bal}.")
-print(f"Sorry, you're all out of money. it took you {rn} rolls")
+    if bal > 0:
+        print(f"Your new balance: ${bal}.")
+        return main(bal,max_bal,rn)
+    else: 
+        print("which is tripple ones! XXX - Triclops caught you - XXX YOU LOSE EVERYTHING!")
+    print(f"Sorry, you're all out of money. it took you {rn} rolls, and your highest balance was {max_bal}")
+    
+b = get_bal()
+main(b,b,1)
