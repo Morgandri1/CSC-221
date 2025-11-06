@@ -1,4 +1,4 @@
-i = []
+i: list[str] = []
 print("Enter a paragraph with at least three sentences. Use an empty line to finish up.")
 stdin = input(">>> ")
 while stdin != "":
