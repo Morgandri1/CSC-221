@@ -27,8 +27,8 @@ async def authenticate_platform():
     secret = headers.get("Authorization") # get app secret header 
     if not secret or not APP_SECRET or secret != APP_SECRET:
         abort(401, "Unauthorized")
-    elif request.headers.get("Content-Type") != "multipart/form-data":
-        abort(400, "Invalid request content")
+    # elif request.headers.get("Content-Type") != "multipart/form-data":
+    #     abort(400, "Invalid request content")
     else:
         return
         
@@ -50,4 +50,5 @@ async def upload():
     except Exception as e:
         return jsonify({"status": 1, "error": str(e)})        
 
+print("Starting on 0.0.0.0, port 80")
 app.run("0.0.0.0", port=80) # run on default http port - forwarded to https via host 
