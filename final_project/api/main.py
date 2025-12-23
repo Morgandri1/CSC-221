@@ -27,8 +27,6 @@ async def authenticate_platform():
     secret = headers.get("Authorization") # get app secret header 
     if not secret or not APP_SECRET or secret != APP_SECRET:
         abort(401, "Unauthorized")
-    # elif request.headers.get("Content-Type") != "multipart/form-data":
-    #     abort(400, "Invalid request content")
     else:
         return
         
